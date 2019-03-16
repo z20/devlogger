@@ -15,12 +15,17 @@ export class LogService {
   private logSource = new BehaviorSubject<Log>({id: null, text: null, date: null});
   selectedLog = this.logSource.asObservable();
 
+  private stateSource = new BehaviorSubject<boolean>(true);
+  stateClear = this.stateSource.asObservable();
+
   constructor() {
-    this.logs = [
-      {id: '1', text: 'Generated Components', date: new Date('3/13/2019 12:54:23')},
-      {id: '2', text: 'Added Bootstrap', date: new Date('2/23/2019 12:54:23')},
-      {id: '3', text: 'Added Logs Component', date: new Date('4/17/2019 12:54:23')}
-    ]
+   // this.logs = [
+   //   {id: '1', text: 'Generated Components', date: new Date('3/13/2019 12:54:23')},
+   //   {id: '2', text: 'Added Bootstrap', date: new Date('2/23/2019 12:54:23')},
+   //   {id: '3', text: 'Added Logs Component', date: new Date('4/17/2019 12:54:23')}
+   // ]
+
+     this.logs = [];
    }
 
    getLogs(): Observable<Log[]> {
@@ -46,9 +51,13 @@ export class LogService {
 
    deleteLog(log: Log) {
     this.logs.forEach((curr, index) => {
-      if(log.id == curr.id) {
+      if(log.id === curr.id) {
         this.logs.splice(index, 1);
       }
     });
+   }
+
+   clearState() {
+     this.stateSource.next(true);
    }
 }

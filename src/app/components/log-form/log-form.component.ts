@@ -19,7 +19,7 @@ export class LogFormComponent implements OnInit {
   constructor(private logService: LogService) { }
 
   ngOnInit() {
-    //Subscribe to the selectedLog observable
+    // Subscribe to the selectedLog observable
     this.logService.selectedLog.subscribe(log => {
       if (log.id !== null) {
         this.isNew = false;
@@ -31,31 +31,42 @@ export class LogFormComponent implements OnInit {
   }
 
   onSubmit() {
-    //check if new log
+    // check if new log
     if (this.isNew) {
-      //create a new log
+      // create a new log
       const newLog = {
         id: this.generateId(),
         text: this.text,
         date: new Date()
       }
-      //Add log
+      // Add log
       this.logService.addLog(newLog);
     } else {
-      //Create log to be updated
+      // Create log to be updated
       const updLog = {
         id: this.id,
         text: this.text,
         date: new Date()
       }
-      //Update log
-      //this.logService.updateLog(updLog);
+      // Update log
+      // this.logService.updateLog(updLog);
     }
+
+    // Clear the state
+    this.clearState();
+  }
+
+  clearState() {
+    this.isNew = true;
+    this.id = '';
+    this.text = '';
+    this.date = '';
+    this.logService.clearState();
   }
 
   generateId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
